@@ -61,3 +61,82 @@ async def submit_feedback(
 ):
     feedback_agent.record_feedback(customer_id, product_id, clicked)
     return {"status": "feedback recorded"}
+import sqlite3
+import os
+
+# Connect to the database (or create if not exists)
+db_path = "recommendation.db"
+conn = sqlite3.connect(db_path)
+cursor = conn.cursor()
+
+# 1. Create tables if they don't exist
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY,
+        name TEXT
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        category TEXT,
+        price REAL
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS browsing_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        customer_id INTEGER,
+        product_id INTEGER,
+        timestamp TEXT,
+        FOREIGN KEY(customer_id) REFERENCES customers(id),
+        FOREIGN KEY(product_id) REFERENCES products(id)
+    )
+''')
+
+# 2. Check if data already exists
+cursor.execute("SELECT COUNT(*) FROM customers")
+customer_count = cursor.fetchone()[0]
+
+# 3. Insert demo data only if DB is empty
+if customer_count == 0:
+    print("🟢 Inserting sample data...")
+    cursor.executemany('''
+        INSERT INTO customers (id, name)
+        VALUES (?, ?)
+    ''', [
+        (1, "Alice Smith"),
+        (2, "Bob Johnson"),
+        (3, "Charlie Lee")
+    ])
+
+    cursor.executemany('''
+        INSERT INTO products (id, name, category, price)
+        VALUES (?, ?, ?, ?)
+    ''', [
+        (1, "Wireless Mouse", "Electronics", 29.99),
+        (2, "Bluetooth Headphones", "Electronics", 49.99),
+        (3, "Yoga Mat", "Fitness", 19.99),
+        (4, "Stainless Steel Water Bottle", "Fitness", 15.99),
+        (5, "Notebook", "Stationery", 4.99)
+    ])
+
+    cursor.executemany('''
+        INSERT INTO browsing_history (customer_id, product_id, timestamp)
+        VALUES (?, ?, datetime('now'))
+    ''', [
+        (1, 1),
+        (1, 2),
+        (2, 3),
+        (3, 5),
+        (3, 4)
+    ])
+    print("✅ Sample data inserted.")
+else:
+    print("ℹ️ Demo data already exists. Skipping insert.")
+
+conn.commit()
+conn.close()

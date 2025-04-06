@@ -4,6 +4,33 @@ import sqlite3
 conn = sqlite3.connect("recommendation.db")  # Make sure the file is in the same directory
 cursor = conn.cursor()
 
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS customers (
+        id INTEGER PRIMARY KEY,
+        name TEXT
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        category TEXT,
+        price REAL
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS browsing_history (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        customer_id INTEGER,
+        product_id INTEGER,
+        timestamp TEXT,
+        FOREIGN KEY(customer_id) REFERENCES customers(id),
+        FOREIGN KEY(product_id) REFERENCES products(id)
+    )
+''')
+
 # Insert sample customers (without email)
 cursor.executemany('''
     INSERT INTO customers (id, name)
