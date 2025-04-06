@@ -2,29 +2,112 @@
 <html>
 <head>
   <title>Your Product Picks</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f4f6fc;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h2 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #eef0ff;
+      border-left: 5px solid #5c67f2;
+      margin-bottom: 15px;
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #444;
+      transition: background-color 0.3s ease;
+    }
+
+    li:hover {
+      background-color: #dde1ff;
+    }
+
+    form {
+      display: inline;
+      margin-left: 10px;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      margin: 0 5px;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.2);
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin-top: 30px;
+      color: #5c67f2;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p {
+      text-align: center;
+      font-size: 16px;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
-  <h2>Hey {{ customer[1] }}! Here are some things we think you'll love:</h2>
+  <div class="container">
+    <h2>Hey {{ customer[1] }}! Here are some things we think you'll love:</h2>
 
-  {% if recommendations %}
-    <ul>
-      {% for p in recommendations %}
-        <li>
-          <strong>{{ p[1] }}</strong> (Category: {{ p[2] }}) – ${{ p[3] }}
-          <form action="/feedback" method="post" style="display:inline;">
-            <input type="hidden" name="customer_id" value="{{ customer[0] }}" />
-            <input type="hidden" name="product_id" value="{{ p[0] }}" />
-            <button name="clicked" value="1">👍</button>
-            <button name="clicked" value="0">👎</button>
-          </form>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No recommendations available at the moment. Try again later!</p>
-  {% endif %}
+    {% if recommendations %}
+      <ul>
+        {% for p in recommendations %}
+          <li>
+            <strong>{{ p[1] }}</strong> (Category: {{ p[2] }}) – ${{ p[3] }}
+            <form action="/feedback" method="post">
+              <input type="hidden" name="customer_id" value="{{ customer[0] }}" />
+              <input type="hidden" name="product_id" value="{{ p[0] }}" />
+              <button name="clicked" value="1" title="Like">👍</button>
+              <button name="clicked" value="0" title="Dislike">👎</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No recommendations available at the moment. Try again later!</p>
+    {% endif %}
 
-  <br />
-  <a href="/">← Back to Home</a>
+    <a href="/">← Back to Home</a>
+  </div>
 </body>
 </html>
