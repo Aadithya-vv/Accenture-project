@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Product Picks</title>
+</head>
+<body>
+  <h2>Hey {{ customer[1] }}! Here are some things we think you'll love:</h2>
+
+  {% if recommendations %}
+    <ul>
+      {% for p in recommendations %}
+        <li>
+          <strong>{{ p[1] }}</strong> (Category: {{ p[2] }}) – ${{ p[3] }}
+          <form action="/feedback" method="post" style="display:inline;">
+            <input type="hidden" name="customer_id" value="{{ customer[0] }}" />
+            <input type="hidden" name="product_id" value="{{ p[0] }}" />
+            <button name="clicked" value="1">👍</button>
+            <button name="clicked" value="0">👎</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No recommendations available at the moment. Try again later!</p>
+  {% endif %}
+
+  <br />
+  <a href="/">← Back to Home</a>
+</body>
+</html>
