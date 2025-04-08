@@ -3,61 +3,56 @@
 <head>
   <title>Your Product Picks</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      background-color: #f4f6fc;
+     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
       margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .container {
-      background: #fff;
-      padding: 30px 40px;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      max-width: 700px;
-      width: 100%;
+      padding: 40px;
+      color: #333;
     }
 
     h2 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 25px;
+      color: #2c3e50;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
 
     ul {
-      list-style-type: none;
+      list-style: none;
       padding: 0;
     }
 
     li {
-      background-color: #eef0ff;
-      border-left: 5px solid #5c67f2;
-      margin-bottom: 15px;
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 16px;
-      color: #444;
-      transition: background-color 0.3s ease;
+      background: #fff;
+      padding: 15px 20px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.2s ease;
     }
 
     li:hover {
-      background-color: #dde1ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    strong {
+      color: #34495e;
     }
 
     form {
-      display: inline;
-      margin-left: 10px;
+      display: flex;
+      gap: 8px;
     }
 
     button {
       background-color: transparent;
       border: none;
-      cursor: pointer;
       font-size: 18px;
-      margin: 0 5px;
+      cursor: pointer;
       transition: transform 0.2s ease;
     }
 
@@ -66,11 +61,10 @@
     }
 
     a {
-      display: block;
-      text-align: center;
-      margin-top: 30px;
-      color: #5c67f2;
+      display: inline-block;
+      margin-top: 20px;
       text-decoration: none;
+      color: #3498db;
       font-weight: bold;
     }
 
@@ -78,10 +72,19 @@
       text-decoration: underline;
     }
 
-    p {
-      text-align: center;
-      font-size: 16px;
-      color: #777;
+    @media (max-width: 600px) {
+      body {
+        padding: 20px;
+      }
+
+      li {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      form {
+        margin-top: 10px;
+      }
     }
   </style>
 </head>
